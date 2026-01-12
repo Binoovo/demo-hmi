@@ -1,6 +1,6 @@
-<app-sidebar (onToggleSideNav)="onToggleSideNav($event)"></app-sidebar>
+<app-sidebar *ngIf="showNavigation" (onToggleSideNav)="onToggleSideNav($event)"></app-sidebar>
 <app-headerbar [collapsed]="isSideNavCollapsed" [screenWidth]="screenWidth"></app-headerbar>
 
-<div class="main-content" [ngClass]="getBodyClass()">
+<div class="main-content" [ngClass]="showNavigation ? getBodyClass() : 'body-no-sidebar'">
   <router-outlet></router-outlet>
 </div>

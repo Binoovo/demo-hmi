@@ -15,6 +15,12 @@
   margin-left: 3rem;
 }
 
+.body-no-sidebar {
+  margin-left: 0;
+  margin-top: 4.5rem;
+  min-height: calc(100vh - 4.5rem);
+}
+
 @media only screen and (max-width: 600px) {
   .main-content {
     margin-left: 0;

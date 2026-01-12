@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { SideNavToggle } from '../../shared/components/sidebar/sidebar.component';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-main-layout',
@@ -9,6 +10,7 @@ import { SideNavToggle } from '../../shared/components/sidebar/sidebar.component
 export class MainLayoutComponent {
   isSideNavCollapsed = false;
   screenWidth = 0;
+  showNavigation = environment.showNavigation;
 
   onToggleSideNav(data: SideNavToggle): void {
     this.screenWidth = data.screenWidth;
