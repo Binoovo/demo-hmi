@@ -9,12 +9,15 @@ import { Router } from '@angular/router';
 export class HeaderbarComponent {
   @Input() collapsed = false;
   @Input() screenWidth = 0;
+  @Input() showNavigation = true;
 
   constructor(private router: Router) {}
 
   getHeadClass(): string {
     let styleClass = '';
-    if (this.collapsed && this.screenWidth > 768) {
+    if (!this.showNavigation) {
+      styleClass = 'head-full-width';
+    } else if (this.collapsed && this.screenWidth > 768) {
       styleClass = 'head-trimmed';
     } else {
       styleClass = 'head-md-screen';
