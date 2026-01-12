@@ -1,0 +1,42 @@
+<p-dialog
+  [header]="'Monitoreo de Variables - ' + entity?.entityName"
+  [(visible)]="visible"
+  [modal]="true"
+  [style]="{width: '600px'}"
+  [draggable]="false"
+  [resizable]="false"
+  (onHide)="cancel()">
+
+  <div class="modal-content">
+    <p class="instruction-text">Selecciona las variables que deseas monitorear:</p>
+
+    <div class="variables-list">
+      <div class="variable-item" *ngFor="let variable of allVariables">
+        <div class="p-field-checkbox">
+          <input
+            type="checkbox"
+            [id]="'var-' + variable.id"
+            [checked]="isSelected(variable)"
+            (change)="toggleVariable(variable)">
+          <label [for]="'var-' + variable.id">
+            {{variable.nombre}} ({{variable.descripcion}})
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      type="button"
+      label="Cancelar"
+      class="p-button-text"
+      (click)="cancel()"></button>
+    <button
+      pButton
+      type="button"
+      label="Aceptar"
+      (click)="accept()"></button>
+  </ng-template>
+</p-dialog>

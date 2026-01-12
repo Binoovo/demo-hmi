@@ -1,0 +1,253 @@
+<div class="variables-config-container">
+  <h1 class="page-title">Tabla de Variables</h1>
+
+  <div class="variables-table-section">
+    <div class="table-toolbar">
+      <button pButton
+              type="button"
+              label="Variable"
+              icon="pi pi-plus"
+              class="p-button-success"
+              [disabled]="true"></button>
+
+      <span class="p-input-icon-left search-input">
+        <i class="pi pi-search"></i>
+        <input pInputText
+               type="text"
+               [(ngModel)]="searchText"
+               (input)="dt.filterGlobal(searchText, 'contains')"
+               placeholder="Buscar..." />
+      </span>
+    </div>
+
+    <p-table #dt
+             [value]="allVariables"
+             [paginator]="true"
+             [rows]="10"
+             [tableStyle]="{'min-width': '50rem'}"
+             [globalFilterFields]="['nombre', 'variableTagPLC', 'descripcion']">
+
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="nombre">Variable Name <p-sortIcon field="nombre"></p-sortIcon></th>
+          <th pSortableColumn="variableTagPLC">Variable Tag PLC <p-sortIcon field="variableTagPLC"></p-sortIcon></th>
+          <th pSortableColumn="serverConnection">Server Connection <p-sortIcon field="serverConnection"></p-sortIcon></th>
+          <th pSortableColumn="entityId">Entity <p-sortIcon field="entityId"></p-sortIcon></th>
+          <th pSortableColumn="monitoring">Monitoring <p-sortIcon field="monitoring"></p-sortIcon></th>
+          <th pSortableColumn="tipo">Data Type <p-sortIcon field="tipo"></p-sortIcon></th>
+          <th pSortableColumn="unidad">Unit <p-sortIcon field="unidad"></p-sortIcon></th>
+          <th>Driver</th>
+          <th>Channel</th>
+          <th>Numero de alarmas</th>
+          <th style="width: 120px">Acciones</th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-variable>
+        <tr>
+          <td>{{variable.nombre}}</td>
+          <td>{{getVariableTagPLC(variable)}}</td>
+          <td>{{getServerConnection()}}</td>
+          <td>{{getEntityName(variable.entityId)}}</td>
+          <td>
+            <span class="monitoring-badge" [ngClass]="variable.monitoring ? 'active' : 'inactive'">
+              {{variable.monitoring ? 'true' : 'false'}}
+            </span>
+          </td>
+          <td>{{getDataType(variable.tipo)}}</td>
+          <td>{{variable.unidad || '-'}}</td>
+          <td>modbustCP</td>
+          <td>14,2</td>
+          <td class="text-center">0</td>
+          <td>
+            <div class="action-buttons">
+              <button pButton
+                      type="button"
+                      icon="pi pi-pencil"
+                      class="p-button-rounded p-button-text p-button-info"
+                      (click)="openUpdateModal(variable)"></button>
+              <button pButton
+                      type="button"
+                      icon="pi pi-trash"
+                      class="p-button-rounded p-button-text p-button-danger"
+                      [disabled]="true"></button>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<!-- Modal de actualización de variable -->
+<p-dialog
+  *ngIf="showUpdateModal && selectedVariable"
+  header="Update Variable"
+  [(visible)]="showUpdateModal"
+  [modal]="true"
+  [style]="{width: '500px'}"
+  [draggable]="false"
+  [resizable]="false"
+  styleClass="update-variable-modal"
+  (onHide)="closeUpdateModal()">
+
+  <div class="update-modal-content">
+    <div class="field">
+      <label for="variableName">Des_variable</label>
+      <input id="variableName"
+             type="text"
+             pInputText
+             [(ngModel)]="selectedVariable.nombre"
+             class="w-full">
+    </div>
+
+    <div class="field">
+      <label for="variableString">Variable String</label>
+      <input id="variableString"
+             type="text"
+             pInputText
+             [value]="getVariableTagPLC(selectedVariable)"
+             [disabled]="true"
+             class="w-full">
+    </div>
+
+    <div class="field">
+      <label for="grupoAlarmas">Grupo Alarmas</label>
+      <p-dropdown id="grupoAlarmas"
+                  [options]="gruposAlarmas"
+                  [(ngModel)]="selectedVariable.grupoAlarma"
+                  optionLabel="label"
+                  optionValue="value"
+                  placeholder="Seleccionar grupo"
+                  [showClear]="false"
+                  styleClass="w-full"></p-dropdown>
+    </div>
+
+    <div class="field-row">
+      <div class="field half">
+        <label for="icon">Icon</label>
+        <p-dropdown id="icon"
+                    [options]="iconOptions"
+                    [(ngModel)]="selectedVariable.icon"
+                    optionLabel="label"
+                    optionValue="value"
+                    placeholder="Seleccionar icono"
+                    [showClear]="false"
+                    styleClass="w-full"></p-dropdown>
+      </div>
+
+      <div class="field half">
+        <label for="unit">Unit</label>
+        <p-dropdown id="unit"
+                    [options]="unitOptions"
+                    [(ngModel)]="selectedVariable.unidad"
+                    optionLabel="label"
+                    optionValue="value"
+                    placeholder="Seleccionar unidad"
+                    [showClear]="false"
+                    styleClass="w-full"></p-dropdown>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="tipoDato">Tipo de dato</label>
+      <p-dropdown id="tipoDato"
+                  [options]="dataTypeOptions"
+                  [(ngModel)]="selectedVariable.tipo"
+                  optionLabel="label"
+                  optionValue="value"
+                  placeholder="Seleccionar tipo"
+                  [showClear]="false"
+                  styleClass="w-full"></p-dropdown>
+    </div>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <button pButton
+            type="button"
+            label="Cancel"
+            icon="pi pi-times"
+            class="p-button-text"
+            (click)="closeUpdateModal()"></button>
+    <button pButton
+            type="button"
+            label="Update"
+            icon="pi pi-check"
+            (click)="updateVariable()"></button>
+  </ng-template>
+</p-dialog>
+
+<!-- Tabla de Alarmas -->
+<h1 class="page-title">Tabla de Alarmas</h1>
+<div class="variables-table-section">
+  <div class="table-toolbar">
+    <button pButton
+            type="button"
+            label="Alarma"
+            icon="pi pi-plus"
+            class="p-button-success"
+            [disabled]="true"></button>
+
+    <span class="p-input-icon-left search-input">
+      <i class="pi pi-search"></i>
+      <input pInputText
+             type="text"
+             (input)="onGlobalFilterAlarms(dtAlarms, $event)"
+             placeholder="Buscar..." />
+    </span>
+  </div>
+
+  <p-table
+    #dtAlarms
+    [value]="alarmConfigs"
+    [paginator]="true"
+    [rows]="10"
+    [tableStyle]="{'min-width': '50rem'}"
+    [globalFilterFields]="['name', 'condition', 'variableName']"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="name">Nombre Alarma <p-sortIcon field="name"></p-sortIcon></th>
+        <th pSortableColumn="condition">Condicion <p-sortIcon field="condition"></p-sortIcon></th>
+        <th pSortableColumn="sendEmail">Envio a email <p-sortIcon field="sendEmail"></p-sortIcon></th>
+        <th pSortableColumn="variableName">Variable a la que pertenece <p-sortIcon field="variableName"></p-sortIcon></th>
+        <th style="width: 120px">Acciones</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-alarm>
+      <tr>
+        <td>{{ alarm.name }}</td>
+        <td>{{ alarm.condition }}</td>
+        <td>
+          <p-tag
+            [value]="alarm.sendEmail ? 'Si' : 'No'"
+            [severity]="alarm.sendEmail ? 'success' : 'danger'"
+          ></p-tag>
+        </td>
+        <td>{{ alarm.variableName }}</td>
+        <td>
+          <div class="action-buttons">
+            <button pButton
+                    type="button"
+                    icon="pi pi-pencil"
+                    class="p-button-rounded p-button-text p-button-info"></button>
+            <button pButton
+                    type="button"
+                    icon="pi pi-trash"
+                    class="p-button-rounded p-button-text p-button-danger"
+                    [disabled]="true"></button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="5" class="text-center">
+          <i class="pi pi-info-circle"></i> En total hay 0 Alarmas.
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

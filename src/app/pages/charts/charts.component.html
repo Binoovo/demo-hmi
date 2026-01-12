@@ -1,0 +1,18 @@
+<div class="charts-container">
+  <h1>Gráficos</h1>
+
+  <div class="card mt-5">
+    <p-chart type="line" [data]="chartData" [options]="chartOptions" />
+  </div>
+
+  <p-cascadeSelect
+    [(ngModel)]="selectedVariable"
+    [options]="entities"
+    optionLabel="des_variable"
+    optionGroupLabel="desc_entity"
+    [optionGroupChildren]="['Variables']"
+    placeholder="Seleccionar Variable"
+    (ngModelChange)="onVariableSelectionChange($event)"
+    class="mr-5">
+  </p-cascadeSelect>
+</div>

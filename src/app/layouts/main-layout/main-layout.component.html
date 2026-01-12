@@ -1,0 +1,6 @@
+<app-sidebar (onToggleSideNav)="onToggleSideNav($event)"></app-sidebar>
+<app-headerbar [collapsed]="isSideNavCollapsed" [screenWidth]="screenWidth"></app-headerbar>
+
+<div class="main-content" [ngClass]="getBodyClass()">
+  <router-outlet></router-outlet>
+</div>

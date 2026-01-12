@@ -1,0 +1,12 @@
+// Estilos para el componente de login
+
+.p-input-icon-right {
+  position: relative;
+
+  i {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}

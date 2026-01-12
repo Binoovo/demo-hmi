@@ -1,0 +1,54 @@
+<div class="historical-variables-container">
+  <h1 class="page-title">Tabla de Historicos</h1>
+
+  <div class="historical-table-section">
+    <div class="table-toolbar">
+      <button pButton
+              type="button"
+              label="Exportar CSV"
+              icon="pi pi-file-export"
+              class="p-button-success"
+              (click)="exportCSV()"></button>
+    </div>
+
+    <p-table #dt
+             [value]="historicalData"
+             [paginator]="true"
+             [rows]="10"
+             [rowsPerPageOptions]="[10, 25, 50]"
+             [showCurrentPageReport]="true"
+             currentPageReportTemplate="Mostrando: {first} a {last} de {totalRecords} Historicos"
+             [tableStyle]="{'min-width': '50rem'}">
+
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="date">
+            Date <i class="pi pi-clock"></i> <p-sortIcon field="date"></p-sortIcon>
+          </th>
+          <th pSortableColumn="desc_variable">
+            Desc_Variable <p-sortIcon field="desc_variable"></p-sortIcon>
+          </th>
+          <th pSortableColumn="plcValue">
+            PlcValue <p-sortIcon field="plcValue"></p-sortIcon>
+          </th>
+          <th pSortableColumn="unidad">
+            Unidad <p-sortIcon field="unidad"></p-sortIcon>
+          </th>
+          <th pSortableColumn="desc_entity">
+            Desc_Entity <p-sortIcon field="desc_entity"></p-sortIcon>
+          </th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-record>
+        <tr>
+          <td>{{record.date | date:'dd/MM/yyyy HH:mm:ss'}}</td>
+          <td>{{record.desc_variable}}</td>
+          <td>{{record.plcValue}}</td>
+          <td>{{record.unidad}}</td>
+          <td>{{record.desc_entity}}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

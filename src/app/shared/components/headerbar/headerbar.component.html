@@ -1,0 +1,29 @@
+<div class="head" [ngClass]="getHeadClass()">
+  <div class="head-content">
+    <div class="head-content-left">
+      <div class="logo-container">
+        <img src="assets/image/logo.png" alt="HMI Logo" class="logo-img">
+      </div>
+    </div>
+    <div class="head-content-right">
+      <div class="head-user-avatar-container">
+        <div class="head-user-avatar" [cdkMenuTriggerFor]="userOverlay">
+          <i class="pi pi-user user-icon"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #userOverlay>
+  <div class="overlay overlay-user overlay-fall" cdkMenu>
+    <ul>
+      <li (click)="logOut()">
+        <a class="logout">
+          <i class="icon pi pi-sign-out"></i>
+          <span>Salir</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</ng-template>

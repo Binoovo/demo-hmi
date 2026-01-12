@@ -1,0 +1,106 @@
+.charts-container {
+  h1 {
+    font-size: 2rem;
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    font-weight: 600;
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    border-radius: .5rem;
+    background-color: #fff;
+    margin: 1.25rem 0 1.25rem 0;
+    box-shadow: 0 .25rem .5rem #e6edef;
+  }
+
+  .mt-5 {
+    margin-top: 3rem;
+  }
+
+  .mr-5 {
+    margin-right: 3rem;
+  }
+
+  ::ng-deep {
+    .p-cascadeselect {
+      min-width: 20rem !important;
+      font-size: 1.1rem;
+
+      .p-cascadeselect-label {
+        padding: 0.85rem 1rem;
+        font-size: 1.05rem;
+      }
+
+      .p-cascadeselect-trigger {
+        width: 2.8rem;
+      }
+    }
+
+    .p-cascadeselect-panel {
+      .p-cascadeselect-items {
+        .p-cascadeselect-item {
+          padding: 0.75rem 1rem;
+          font-size: 1rem;
+
+          .p-cascadeselect-item-content {
+            .p-cascadeselect-group-icon {
+              font-size: 1rem;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .no-data-message {
+    background: white;
+    padding: 3rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    color: #6c757d;
+
+    i {
+      font-size: 3rem;
+      color: #94a3b8;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      margin: 0.5rem 0;
+      font-size: 1rem;
+
+      &:first-of-type {
+        font-weight: 500;
+        font-size: 1.1rem;
+        color: #495057;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .charts-container {
+    padding: 1rem;
+
+    .page-title {
+      font-size: 1.5rem;
+    }
+
+    .chart-controls {
+      padding: 1rem;
+
+      .variable-selector {
+        p-cascadeSelect {
+          max-width: 100%;
+        }
+      }
+    }
+
+    .chart-section {
+      padding: 1rem;
+    }
+  }
+}

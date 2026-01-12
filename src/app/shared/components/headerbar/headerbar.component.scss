@@ -1,0 +1,123 @@
+.head {
+  width: calc(100% - 3rem);
+  margin-left: 3rem;
+  z-index: 1;
+  transition: all .3s ease;
+  background: var(--surface-ground);
+  position: fixed;
+  top: 0;
+
+  .head-content {
+    background: var(--surface-overlay);
+    box-shadow: 0px 0px 10px rgb(34 41 47 / 10%);
+    padding: 0.813rem 1.563rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .head-content-left {
+      .logo-container {
+        .logo-img {
+          width: 111px;
+          height: 34px;
+        }
+
+        .logo-text {
+          font-size: 1.5rem;
+          font-weight: 600;
+          color: var(--text-color);
+        }
+      }
+    }
+
+    .head-content-right {
+      display: flex;
+      align-items: center;
+
+      .head-user-avatar-container {
+        margin-left: 20px;
+
+        .head-user-avatar {
+          position: relative;
+          cursor: pointer;
+
+          .user-icon {
+            font-size: 1.8rem;
+            color: var(--text-color);
+          }
+        }
+      }
+    }
+  }
+}
+
+.head-trimmed {
+  width: calc(100% - 12rem);
+  margin-left: 12rem;
+}
+
+.head-md-screen {
+  width: calc(100% - 3rem);
+  margin-left: 3rem;
+}
+
+.overlay {
+  background: var(--surface-overlay);
+  margin-top: 10px;
+  box-shadow: 0 1rem 3rem rgb(0 0 0 / 18%);
+  border-radius: 0.25rem;
+  color: var(--text-color);
+}
+
+.overlay-fall {
+  animation: fall-animation 200ms ease-in-out forwards;
+  transform-origin: top center;
+}
+
+@keyframes fall-animation {
+  0% {
+    transform: scaleY(0);
+  }
+  100% {
+    transform: scaleY(1);
+  }
+}
+
+.overlay-user {
+  ul {
+    padding: 0.5rem 0;
+    list-style: none;
+    width: 10rem;
+    margin: 0;
+
+    li {
+      padding: 0.35rem 1.5rem;
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--text-color);
+      cursor: pointer;
+
+      a {
+        text-decoration: none;
+        color: var(--text-color);
+        display: flex;
+        align-items: center;
+      }
+
+      .icon {
+        margin-right: 1rem;
+      }
+    }
+
+    li:hover {
+      background: var(--surface-ground);
+    }
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .head {
+    width: 100%;
+    margin-left: 0;
+  }
+}

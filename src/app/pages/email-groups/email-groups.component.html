@@ -1,0 +1,101 @@
+<div class="email-groups-container">
+  <!-- Tabla Grupo de Correos -->
+  <h1 class="page-title">Tabla Grupo de Correos</h1>
+
+  <div class="table-section">
+    <div class="table-toolbar">
+      <button pButton
+              type="button"
+              label="Crear Grupo"
+              class="p-button-success"
+              [disabled]="true"></button>
+    </div>
+
+    <p-table [value]="emailGroups"
+             [paginator]="true"
+             [rows]="10"
+             [showCurrentPageReport]="true"
+             currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} Grupos"
+             [tableStyle]="{'min-width': '50rem'}">
+
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="name">Nombre del Grupo <p-sortIcon field="name"></p-sortIcon></th>
+          <th pSortableColumn="emailCount">Numero Correos <p-sortIcon field="emailCount"></p-sortIcon></th>
+          <th style="width: 120px">Acciones</th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-group>
+        <tr>
+          <td>{{ group.name }}</td>
+          <td>{{ group.emailCount }}</td>
+          <td>
+            <div class="action-buttons">
+              <button pButton
+                      type="button"
+                      icon="pi pi-trash"
+                      class="p-button-rounded p-button-text p-button-danger"
+                      [disabled]="true"></button>
+              <button pButton
+                      type="button"
+                      icon="pi pi-pencil"
+                      class="p-button-rounded p-button-text p-button-success"
+                      [disabled]="true"></button>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+
+  <!-- Tabla Correos -->
+  <h1 class="page-title secondary-title">Tabla Correos</h1>
+
+  <div class="table-section">
+    <div class="table-toolbar">
+      <button pButton
+              type="button"
+              label="Crear Correo"
+              class="p-button-success"
+              [disabled]="true"></button>
+    </div>
+
+    <p-table [value]="emails"
+             [paginator]="true"
+             [rows]="10"
+             [showCurrentPageReport]="true"
+             currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} Correos"
+             [tableStyle]="{'min-width': '50rem'}">
+
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="email">Correo <p-sortIcon field="email"></p-sortIcon></th>
+          <th pSortableColumn="groupName">Grupo de correo Al que pertenece <p-sortIcon field="groupName"></p-sortIcon></th>
+          <th style="width: 120px">Acciones</th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-email>
+        <tr>
+          <td>{{ email.email }}</td>
+          <td>{{ email.groupName }}</td>
+          <td>
+            <div class="action-buttons">
+              <button pButton
+                      type="button"
+                      icon="pi pi-trash"
+                      class="p-button-rounded p-button-text p-button-danger"
+                      [disabled]="true"></button>
+              <button pButton
+                      type="button"
+                      icon="pi pi-pencil"
+                      class="p-button-rounded p-button-text p-button-success"
+                      [disabled]="true"></button>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

@@ -1,0 +1,32 @@
+<div class="flex align-items-center justify-content-center" style="min-height: 100vh; background: #f0f2f5;">
+  <div class="surface-card p-6 shadow-2 w-full lg:w-5" style="border-radius: 24px;">
+    <div class="text-center mb-5">
+      <div class="mb-4">
+        <img src="assets/binoovo_logo.jpg" alt="Binoovo Logo" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;">
+      </div>
+      <div class="text-900 text-4xl font-semibold mb-2">Bienvenido!</div>
+      <span class="text-600 font-normal">Inicia sesión para continuar</span>
+    </div>
+
+    <div>
+      <label for="username" class="block text-900 font-semibold mb-2 text-base">Nombre</label>
+      <input id="username" type="text" pInputText class="w-full mb-4"
+             style="background: #e8edf5; border: 1px solid #d1d9e6; padding: 0.875rem; border-radius: 8px;"
+             [(ngModel)]="username" (keyup.enter)="login()">
+
+      <label for="password" class="block text-900 font-semibold mb-2 text-base">Contraseña</label>
+      <div class="p-input-icon-right w-full mb-4">
+        <i class="pi" [ngClass]="showPassword ? 'pi-eye-slash' : 'pi-eye'"
+           (click)="togglePasswordVisibility()"
+           style="cursor: pointer; color: #6c757d; right: 1rem; top: 50%; transform: translateY(-50%);"></i>
+        <input id="password" [type]="showPassword ? 'text' : 'password'" pInputText class="w-full"
+               style="background: #e8edf5; border: 1px solid #d1d9e6; padding: 0.875rem; border-radius: 8px; padding-right: 3rem;"
+               [(ngModel)]="password" (keyup.enter)="login()">
+      </div>
+
+      <button pButton pRipple label="Loguearse" class="w-full p-button-lg"
+              style="background: #1e2757; border-color: #1e2757; border-radius: 8px; padding: 0.875rem; font-weight: 600; margin-top: 1rem;"
+              (click)="login()"></button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,146 @@
+<p-toast></p-toast>
+
+<div class="historical-alarms-container">
+  <h1 class="page-title">Historico de Alarmas</h1>
+
+  <!-- Tabla de Historicos Alarmas -->
+  <div class="historical-table-section">
+    <h2 class="section-title">Tabla de Historicos Alarmas</h2>
+
+    <div class="table-toolbar">
+      <button pButton
+              type="button"
+              label="Exportar CSV"
+              icon="pi pi-file-export"
+              class="p-button-success"
+              (click)="exportCSV()"></button>
+    </div>
+
+    <p-table #dt1
+             [value]="historicalAlarms"
+             [paginator]="true"
+             [rows]="10"
+             [rowsPerPageOptions]="[10, 25, 50]"
+             [showCurrentPageReport]="true"
+             currentPageReportTemplate="Mostrando: {first} a {last} de {totalRecords} Alarmas"
+             [tableStyle]="{'min-width': '50rem'}">
+
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="date">
+            Date <i class="pi pi-clock"></i> <p-sortIcon field="date"></p-sortIcon>
+          </th>
+          <th pSortableColumn="alarma">
+            Alarma <p-sortIcon field="alarma"></p-sortIcon>
+          </th>
+          <th pSortableColumn="desc_variable">
+            Desc_Variable <p-sortIcon field="desc_variable"></p-sortIcon>
+          </th>
+          <th pSortableColumn="plcValue">
+            PlcValue <p-sortIcon field="plcValue"></p-sortIcon>
+          </th>
+          <th pSortableColumn="unidad">
+            Unidad <p-sortIcon field="unidad"></p-sortIcon>
+          </th>
+          <th pSortableColumn="desc_entity">
+            Desc_Entity <p-sortIcon field="desc_entity"></p-sortIcon>
+          </th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-alarm>
+        <tr [ngClass]="{
+          'active-unacknowledged-row': alarm.isActive && !alarm.acknowledged,
+          'active-acknowledged-row': alarm.isActive && alarm.acknowledged
+        }">
+          <td>{{alarm.date | date:'dd/MM/yyyy HH:mm:ss'}}</td>
+          <td>{{alarm.alarma}}</td>
+          <td>{{alarm.desc_variable}}</td>
+          <td>{{alarm.plcValue}}</td>
+          <td>{{alarm.unidad}}</td>
+          <td>{{alarm.desc_entity}}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+
+  <!-- Tabla de Alarmas Activas -->
+  <div class="active-alarms-section">
+    <h2 class="section-title">Alarmas Activas</h2>
+
+    <p-table #dt2
+             [value]="activeAlarms"
+             [paginator]="true"
+             [rows]="10"
+             [rowsPerPageOptions]="[10, 25, 50]"
+             [showCurrentPageReport]="true"
+             currentPageReportTemplate="Mostrando: {first} a {last} de {totalRecords} Alarmas Activas"
+             [tableStyle]="{'min-width': '50rem'}">
+
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="date">
+            Date <i class="pi pi-clock"></i> <p-sortIcon field="date"></p-sortIcon>
+          </th>
+          <th pSortableColumn="alarma">
+            Alarma <p-sortIcon field="alarma"></p-sortIcon>
+          </th>
+          <th pSortableColumn="desc_variable">
+            Desc_Variable <p-sortIcon field="desc_variable"></p-sortIcon>
+          </th>
+          <th pSortableColumn="plcValue">
+            PlcValue <p-sortIcon field="plcValue"></p-sortIcon>
+          </th>
+          <th pSortableColumn="unidad">
+            Unidad <p-sortIcon field="unidad"></p-sortIcon>
+          </th>
+          <th pSortableColumn="desc_entity">
+            Desc_Entity <p-sortIcon field="desc_entity"></p-sortIcon>
+          </th>
+          <th>
+            IsActive
+          </th>
+          <th>
+            Reconocer
+          </th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-alarm>
+        <tr>
+          <td>{{alarm.date | date:'dd/MM/yyyy HH:mm:ss'}}</td>
+          <td>{{alarm.alarma}}</td>
+          <td>{{alarm.desc_variable}}</td>
+          <td>{{alarm.plcValue}}</td>
+          <td>{{alarm.unidad}}</td>
+          <td>{{alarm.desc_entity}}</td>
+          <td>
+            <span class="active-badge" [ngClass]="{
+              'unacknowledged': !alarm.acknowledged,
+              'acknowledged': alarm.acknowledged
+            }">
+              <i [ngClass]="alarm.acknowledged ? 'pi pi-check-circle' : 'pi pi-exclamation-circle'"></i>
+              {{ alarm.acknowledged ? 'Reconocida' : 'Sin Reconocer' }}
+            </span>
+          </td>
+          <td>
+            <button pButton
+                    type="button"
+                    [label]="alarm.acknowledged ? 'Revertir' : 'Reconocer'"
+                    [icon]="alarm.acknowledged ? 'pi pi-undo' : 'pi pi-check'"
+                    [class]="alarm.acknowledged ? 'p-button-secondary p-button-sm' : 'p-button-warning p-button-sm'"
+                    (click)="acknowledgeAlarm(alarm)"></button>
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="8" class="text-center">
+            <i class="pi pi-info-circle"></i> No hay alarmas activas
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

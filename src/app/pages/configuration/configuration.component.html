@@ -1,0 +1,159 @@
+<div class="configuration-container">
+  <h1 class="page-title">Tabla de Entidades</h1>
+
+  <div class="entities-grid">
+    <div class="entity-config-card" *ngFor="let entity of entities">
+      <div class="entity-header">
+        <h3>{{entity.entityName}}</h3>
+        <span class="variable-count">Variables: {{entity.variables.length}}</span>
+      </div>
+
+      <div class="entity-content">
+        <h4>Entity variables</h4>
+        <p>Para visualizar o no el monitoreo de las variables pulsa "Monitoreo Variables"</p>
+
+        <button pButton
+                type="button"
+                label="Monitoreo Variables"
+                class="p-button-outlined"
+                (click)="openMonitoringModal(entity)"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabla de Entidades -->
+  <div class="entities-table-section">
+    <div class="table-header">
+      <button pButton
+              type="button"
+              label="Crear"
+              class="p-button-success"
+              [disabled]="true"></button>
+    </div>
+
+    <p-table [value]="entitiesTableData" [paginator]="true" [rows]="10" [tableStyle]="{'min-width': '50rem'}">
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="description">Desc Entity <p-sortIcon field="description"></p-sortIcon></th>
+          <th pSortableColumn="connectionString">Connection String <p-sortIcon field="connectionString"></p-sortIcon></th>
+          <th pSortableColumn="image">Image <p-sortIcon field="image"></p-sortIcon></th>
+          <th pSortableColumn="color">Color <p-sortIcon field="color"></p-sortIcon></th>
+          <th style="width: 120px">Acciones</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-entity>
+        <tr>
+          <td>{{entity.description}}</td>
+          <td>{{entity.connectionString}}</td>
+          <td>
+            <img *ngIf="entity.image" [src]="entity.image" [alt]="entity.description" class="entity-image">
+            <span *ngIf="!entity.image">-</span>
+          </td>
+          <td>
+            <span class="color-badge" [style.background-color]="entity.color">{{entity.color}}</span>
+          </td>
+          <td>
+            <div class="action-buttons">
+              <button pButton
+                      type="button"
+                      icon="pi pi-refresh"
+                      class="p-button-rounded p-button-text p-button-success"
+                      (click)="openUpdateModal(entity)"></button>
+              <button pButton
+                      type="button"
+                      icon="pi pi-times"
+                      class="p-button-rounded p-button-text p-button-danger"
+                      [disabled]="true"></button>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<app-variable-monitor-modal
+  *ngIf="showModal && selectedEntity"
+  [entity]="selectedEntity"
+  [visible]="showModal"
+  (onClose)="closeModal()">
+</app-variable-monitor-modal>
+
+<!-- Modal de actualización de entidad -->
+<p-dialog
+  *ngIf="showUpdateModal && selectedEntityForUpdate"
+  header="Actualizar Entity"
+  [(visible)]="showUpdateModal"
+  [modal]="true"
+  [style]="{width: '500px'}"
+  [draggable]="false"
+  [resizable]="false"
+  styleClass="update-entity-modal"
+  (onHide)="closeUpdateModal()">
+
+  <div class="update-modal-content">
+    <div class="field">
+      <label for="entityDescription">Entity Description</label>
+      <input id="entityDescription"
+             type="text"
+             pInputText
+             [(ngModel)]="selectedEntityForUpdate.description"
+             class="w-full">
+    </div>
+
+    <div class="field">
+      <label for="connectionString">Connection string</label>
+      <p-dropdown id="connectionString"
+                  [options]="[{label: selectedEntityForUpdate.connectionString, value: selectedEntityForUpdate.connectionString}]"
+                  [(ngModel)]="selectedEntityForUpdate.connectionString"
+                  [disabled]="true"
+                  styleClass="w-full"></p-dropdown>
+    </div>
+
+    <div class="field">
+      <label>Color</label>
+      <input type="color"
+             [(ngModel)]="selectedEntityForUpdate.color"
+             class="color-picker">
+    </div>
+
+    <div class="field">
+      <label>Image</label>
+      <div class="image-upload-section">
+        <div class="image-buttons">
+          <button pButton
+                  type="button"
+                  label="Choose"
+                  icon="pi pi-plus"
+                  class="p-button-primary"
+                  [disabled]="true"></button>
+          <button pButton
+                  type="button"
+                  label="Upload"
+                  icon="pi pi-upload"
+                  class="p-button-secondary"
+                  [disabled]="true"></button>
+          <button pButton
+                  type="button"
+                  label="Cancel"
+                  icon="pi pi-times"
+                  class="p-button-secondary"
+                  [disabled]="true"></button>
+        </div>
+        <p class="image-upload-text">Upload image</p>
+      </div>
+    </div>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <button pButton
+            type="button"
+            label="Cancelar"
+            class="p-button-text"
+            (click)="closeUpdateModal()"></button>
+    <button pButton
+            type="button"
+            label="Actualizar"
+            (click)="updateEntity(selectedEntityForUpdate)"></button>
+  </ng-template>
+</p-dialog>

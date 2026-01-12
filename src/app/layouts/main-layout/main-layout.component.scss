@@ -1,0 +1,22 @@
+.main-content {
+  margin-left: 3rem;
+  margin-top: 4.5rem;
+  padding: 2rem;
+  transition: all .3s ease;
+  background: var(--surface-ground);
+  min-height: calc(100vh - 4.5rem);
+}
+
+.body-trimmed {
+  margin-left: 12rem;
+}
+
+.body-md-screen {
+  margin-left: 3rem;
+}
+
+@media only screen and (max-width: 600px) {
+  .main-content {
+    margin-left: 0;
+  }
+}

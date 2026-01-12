@@ -1,0 +1,19 @@
+<div class="plcdata-container">
+  <div class="entities-grid">
+    <div class="entity-card" *ngFor="let entity of entities" [style.border-top-color]="entity.color">
+      <div class="entity-header" [style.background-color]="entity.color">
+        <h3 class="entity-title">{{entity.entityName}}</h3>
+        <i *ngIf="entity.hasAlarm" class="pi pi-exclamation-triangle alarm-icon"></i>
+      </div>
+      <div class="entity-variables">
+        <div class="variable-item" *ngFor="let variable of entity.variables">
+          <div class="variable-info">
+            <i *ngIf="getVariableIcon(variable)" [class]="getVariableIcon(variable)" class="variable-icon"></i>
+            <span class="variable-name">{{variable.nombre}}</span>
+          </div>
+          <span class="variable-value">{{variable.valor}} {{getVariableUnit(variable)}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

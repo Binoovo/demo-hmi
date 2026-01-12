@@ -1,0 +1,57 @@
+<p-toast></p-toast>
+<div class="variables-database-container">
+  <h1 class="page-title">Selecciona aquellas variables que deseas historizar</h1>
+
+  <div class="variables-table-section">
+    <div class="table-toolbar">
+      <button pButton
+              type="button"
+              label="Guardar Configuración"
+              icon="pi pi-save"
+              class="p-button-success"
+              (click)="saveHistoricalConfig()"></button>
+    </div>
+
+    <p-table #dt
+             [value]="allVariables"
+             [paginator]="true"
+             [rows]="5"
+             [rowsPerPageOptions]="[5, 10, 25, 50]"
+             [showCurrentPageReport]="true"
+             currentPageReportTemplate="Mostrando: {first} a {last} de {totalRecords} Variables"
+             [(selection)]="selectedVariables"
+             dataKey="id"
+             [tableStyle]="{'min-width': '50rem'}">
+
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 50px">
+            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+          </th>
+          <th pSortableColumn="nombre">Variable <p-sortIcon field="nombre"></p-sortIcon></th>
+          <th pSortableColumn="unidad">Unit <p-sortIcon field="unidad"></p-sortIcon></th>
+          <th pSortableColumn="valor">Value <p-sortIcon field="valor"></p-sortIcon></th>
+          <th pSortableColumn="entityId">Entity <p-sortIcon field="entityId"></p-sortIcon></th>
+          <th pSortableColumn="historicalEnabled">Entity State <p-sortIcon field="historicalEnabled"></p-sortIcon></th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-variable>
+        <tr>
+          <td>
+            <p-tableCheckbox [value]="variable"></p-tableCheckbox>
+          </td>
+          <td>{{variable.nombre}}</td>
+          <td>{{getVariableUnit(variable)}}</td>
+          <td>{{variable.valor}}</td>
+          <td>{{getEntityName(variable.entityId)}}</td>
+          <td>
+            <span class="state-badge" [ngClass]="variable.historicalEnabled ? 'enabled' : 'disabled'">
+              {{variable.historicalEnabled ? 'true' : 'false'}}
+            </span>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

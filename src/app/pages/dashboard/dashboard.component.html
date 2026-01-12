@@ -1,0 +1,73 @@
+<div class="p-4">
+  <h1 class="text-4xl font-bold mb-4">HMI Demo - Dashboard</h1>
+
+  <!-- Alarmas Activas -->
+  <div class="card mb-4" *ngIf="alarms.length > 0">
+    <div class="card-head">
+      <i class="pi pi-exclamation-triangle mr-2"></i>
+      Alarmas Activas ({{ alarms.length }})
+    </div>
+    <div class="card-body">
+      <div *ngFor="let alarm of alarms" class="flex align-items-center justify-content-between mb-3 p-3 surface-100 border-round">
+        <div class="flex-1">
+          <div class="font-semibold">{{ alarm.mensaje }}</div>
+          <div class="text-sm text-600">Variable: {{ alarm.variableNombre }} | {{ alarm.timestamp | date:'short' }}</div>
+        </div>
+        <p-tag [value]="alarm.severidad" [ngClass]="getSeverityClass(alarm.severidad)"></p-tag>
+      </div>
+    </div>
+  </div>
+
+  <!-- Estado de PLCs -->
+  <div class="grid">
+    <div class="col-12 lg:col-6" *ngFor="let plc of plcData">
+      <div class="card">
+        <div class="card-head flex justify-content-between align-items-center">
+          <span>{{ plc.plcNombre }}</span>
+          <p-tag [value]="plc.estado" [severity]="plc.estado === 'Conectado' ? 'success' : 'danger'"></p-tag>
+        </div>
+        <div class="card-body">
+          <p-table [value]="plc.variables" [paginator]="true" [rows]="5" responsiveLayout="scroll">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Variable</th>
+                <th>Valor</th>
+                <th>Descripción</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-variable>
+              <tr>
+                <td class="font-semibold">{{ variable.nombre }}</td>
+                <td>
+                  <span class="text-primary font-bold">{{ variable.valor }}</span>
+                  <span class="text-600">{{ variable.unidad }}</span>
+                </td>
+                <td class="text-sm text-600">{{ variable.descripcion }}</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Resumen de Variables -->
+  <div class="card">
+    <div class="card-head">
+      Variables del Sistema ({{ variables.length }})
+    </div>
+    <div class="card-body">
+      <div class="grid">
+        <div class="col-12 md:col-6 lg:col-4 xl:col-3" *ngFor="let variable of variables">
+          <div class="p-3 border-round border-1 surface-border hover:surface-hover transition-duration-150">
+            <div class="text-sm text-600 mb-2">{{ variable.nombre }}</div>
+            <div class="text-2xl font-bold text-primary mb-1">
+              {{ variable.valor }} <span class="text-base text-600">{{ variable.unidad }}</span>
+            </div>
+            <div class="text-xs text-500">{{ variable.tipo }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
